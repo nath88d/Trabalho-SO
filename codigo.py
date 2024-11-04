@@ -1,6 +1,8 @@
-from processo import Processo
+import threading
 from time import sleep
 from leitura_e_gravacao import *
+from janela import Saida
+import tkinter as tk
 saida = ''
 
 arquivo = leitura_processos('entrada.txt')
@@ -8,9 +10,12 @@ processos = arquivo[0] # Extrai informacoes dos processos do arquivo
 tempo = arquivo[1] # Extrai a quantidade de surtos para contabilizar o tempo
 quantum = 4
 Fila = []
-
 executando = 0
 
+def criar_janela():
+    menu = tk.Tk()
+    janela = Saida(menu)
+    menu.mainloop()
         
 def inserir_fila(processo, tempo): # Operacao IO | Prioridade da Fila -> quem sofre IO
     global executando
@@ -50,7 +55,7 @@ def inserir_fila(processo, tempo): # Operacao IO | Prioridade da Fila -> quem so
             else:
                 resultadoCPU = executa(temp_processo)# Executa o proximo processo
                 
-        else:                                             # Caso tenha chegado ao fim da fila
+        else:                                                   # Caso tenha chegado ao fim da fila
             resultadoExtra += '#[evento] FIM Quantum <%s>'%(processo.PID)
             resultadoCPU = executa(processo)# Executa o proximo processo
                 
@@ -119,6 +124,8 @@ salvar_saida("***********************************\n\
 ------- INICIANDO SIMULACAO -------\n\
 -----------------------------------\n")
 
+threading.Thread(target=criar_janela).start()
+
 for t in range(tempo + 1):
     saida = '********** TEMPO %d **************\n'%(t)
     resultadoExtra = ''
@@ -139,4 +146,4 @@ for t in range(tempo + 1):
 ------- Encerrando simulacao ------\n\
 -----------------------------------\n"
     salvar_saida(saida +"\n")
-    sleep(0.5)
+    sleep(1)
