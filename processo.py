@@ -10,6 +10,7 @@ class Processo:
         self.IO = list(map(int,IO))
         self.isFirst = True
         self.encerrado = False
+        self.Historico = [] # Lista de caracteres que salva suas alterações a cada tempo percorrido
 
     def encerrar(self):
         self.encerrado = True

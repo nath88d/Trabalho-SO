@@ -32,7 +32,9 @@ def leitura_processos(arquivo):
     file.close()
     return [processos, tempo_total]
 
-def salvar_saida(texto):
-    with open('saida.txt', 'a') as file:
+def salvar_saida(texto, nome, type):
+    # with open('%s.txt', 'a') as file:
+    #     file.write(texto)
+    with open('%s.txt'%(nome), type) as file: #Implementar grafico
         file.write(texto)
-    return print()
+    return
