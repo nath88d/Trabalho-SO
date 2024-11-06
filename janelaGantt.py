@@ -11,7 +11,7 @@ class Gantt:
         title_frame = tk.Frame(master, bg='#2e2e2e', bd=0)
         title_frame.pack(fill=tk.X)
 
-        title_label = tk.Label(title_frame, text="Grafico Gantt", bg='#2e2e2e', fg='white')
+        title_label = tk.Label(title_frame, text="Gráfico Gantt", bg='#2e2e2e', fg='white')
         title_label.pack(padx=10, pady=5)
 
         self.text_area = scrolledtext.ScrolledText(master, wrap=tk.NONE, width=100, height=30, bg='#2e2e2e', fg='white',relief="flat", bd=0)
