@@ -24,7 +24,7 @@ def criar_janela_grafico():
     janela = Gantt(grafico)
     grafico.mainloop()
         
-def inserir_fila(processo, tempo): # Operacao IO | Prioridade da Fila -> quem sofre IO
+def escalonador(processo, tempo): # Operacao IO | Prioridade da Fila -> quem sofre IO
     global executando
     global processos
     global estado_do_processo
@@ -97,7 +97,7 @@ def inserir_fila(processo, tempo): # Operacao IO | Prioridade da Fila -> quem so
         if len(Fila) > 0:
             temp_processo = Fila[0] 
             Fila.pop(0)
-            processo.encerrar()
+            processo.encerrar(tempo)
             executando = temp_processo.num_PID
             resultadoExtra += '#[evento] ENCERRANDO <%s>'%(processo.PID)
             if processo.num_PID < temp_processo.num_PID:
@@ -106,7 +106,7 @@ def inserir_fila(processo, tempo): # Operacao IO | Prioridade da Fila -> quem so
                 resultadoCPU = executa(temp_processo)# Executa o proximo processo
                 
         else:                                           # Caso tenha chegado ao fim da fila
-            processo.encerrar()
+            processo.encerrar(tempo)
             executando = 0
             resultadoExtra += '#[evento] ENCERRANDO <%s>'%(processo.PID)
             resultadoCPU = executa(processo)# Executa o processo atual
@@ -120,6 +120,7 @@ def inserir_fila(processo, tempo): # Operacao IO | Prioridade da Fila -> quem so
         
     resultadoFila = 'FILA: %s'%(Fila) if (len(Fila) != 0) else '' # Retorna o resultado da fila final
     return  resultadoExtra, resultadoFila, resultadoCPU # Retorna as string para mais tarde serem organizadas
+
 
 def resultado(resultadoExtra, resultadoFila, resultadoCPU): # Saida dos resultados
     global saida
@@ -154,7 +155,7 @@ for t in range(tempo + 1):
     resultadoFila = 'Nao ha processos na fila'
     resultadoCPU = ''
     for processo in processos:
-        tempExtra, tempFila, tempCPU = inserir_fila(processo,t)
+        tempExtra, tempFila, tempCPU = escalonador(processo,t)
         if tempCPU != '':
             resultadoCPU = tempCPU
         if tempFila != '' and tempFila != None :
@@ -166,7 +167,7 @@ for t in range(tempo + 1):
             processo.Historico.append(estado_do_processo[1])
         estado_do_processo = '   '
             
-    montarGrafico(saida, t, processos)
+    montarGrafico(t, processos)
     
     resultado(resultadoExtra, resultadoFila, resultadoCPU)
     if(executando == 0):

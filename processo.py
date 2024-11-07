@@ -6,14 +6,21 @@ class Processo:
         self.num_PID = int(PID[1:])
         self.chegada = int(chegada)
         self.surtos = int(surtos)
+        self.total_surtos = self.surtos
         self.interacao = 0
         self.IO = list(map(int,IO))
         self.isFirst = True
         self.encerrado = False
         self.Historico = [] # Lista de caracteres que salva suas alterações a cada tempo percorrido
+        self.tempo_encerrado = 0
 
-    def encerrar(self):
+    def calcular_tempo_espera(self, tempo_percorrido):
+        return ((self.tempo_encerrado - (self.chegada)) - self.total_surtos )
+        # return(self.tempo_processado + self.chegada) - (tempo_percorrido)
+
+    def encerrar(self, tempo):
         self.encerrado = True
+        self.tempo_encerrado = tempo
         
     def reinicia_surtos(self):
         self.surtos_seguidos = 0
