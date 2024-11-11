@@ -34,8 +34,6 @@ interrupções.
 Execute o arquivo principal "main.py":
 As janelas de saída e gráfico serão abertas automaticamente e atualizadas com os resultados.
 
-link do git: #https://github.com/nath88d/Trabalho-SO
-
 # Contribuidores
 Ana Beatriz de Souza (24.122.018-5)
 
